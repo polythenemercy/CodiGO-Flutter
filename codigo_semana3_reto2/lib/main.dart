@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5.0,
+                        height: 8.0,
                       ),
                       Text(
                         "⚫️ At 77, Representative Nancy Pelosi remains a dominant, but polarizing, figure in Washington.",
@@ -80,6 +80,9 @@ class MyApp extends StatelessWidget {
                             color: Colors.grey
                         ),
                       ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
                       Text(
                         "⚫️ How can she bridges Democrats' factions on immigration may help determine whether she can lead her party to a majority.",
                         style: TextStyle(
@@ -87,16 +90,31 @@ class MyApp extends StatelessWidget {
                             color: Colors.grey
                         ),
                       ),
+                      SizedBox(
+                        height: 14.0,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "2h ago."
+                            "2h ago.",
+                            style: TextStyle(
+                              color: Colors.grey
+                            ),
                           ), 
                           Row(
                             children: [
-                              Icon(Icons.bookmark),
-                              Icon(Icons.upload_outlined)
+                              Icon(
+                                Icons.bookmark,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Icon(
+                                Icons.upload_outlined,
+                                color: Colors.grey,
+                              )
                             ],
                           )
                         ],
