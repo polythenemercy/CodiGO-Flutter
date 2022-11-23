@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../utils/constants.dart';
 import '../general/colors.dart';
 import 'general_widget.dart';
@@ -34,11 +35,16 @@ class TextFieldCustomWidget extends StatelessWidget {
         TextFormField(
           controller: controller,
           keyboardType: inputTypeMap[inputTypeEnum],
+          maxLength: inputTypeEnum == InputTypeEnum.dni ? 8 : null,
           style: TextStyle(
               color: kFontPrimaryColor.withOpacity(0.5),
               fontSize: 14.0
           ),
+          inputFormatters: inputTypeEnum == InputTypeEnum.dni || inputTypeEnum == InputTypeEnum.telefono ? [
+            FilteringTextInputFormatter.allow(RegExp('[0-9]'),),
+          ] : [],
           decoration: InputDecoration(
+            counter: const SizedBox(),
             hintText: hintText,
             hintStyle: TextStyle(
                 fontSize: 14.0,
@@ -78,6 +84,10 @@ class TextFieldCustomWidget extends StatelessWidget {
 
             if (value != null && value.isEmpty) {
               return "Campo obligatorio";
+            }
+
+            if (inputTypeEnum == InputTypeEnum.dni && value!.length < 8) {
+              return "Ingresar ocho digitos";
             }
 
             return null;

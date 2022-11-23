@@ -8,11 +8,20 @@ import 'package:codigo_semana11_alert/utils/assets_data.dart';
 import 'package:codigo_semana11_alert/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _dniController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
 
   Future _login (BuildContext context) async {
 
@@ -20,6 +29,11 @@ class LoginPage extends StatelessWidget {
 
       String _dni = _dniController.text;
       String _password = _passwordController.text;
+
+      isLoading = true;
+      setState(() {
+
+      });
 
       ApiService apiService = ApiService();
 
@@ -29,6 +43,36 @@ class LoginPage extends StatelessWidget {
 
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
 
+      } else {
+        isLoading = false;
+        setState(() {
+
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14.0)
+            ),
+            backgroundColor: Colors.redAccent,
+            content: Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.white,
+                ),
+                spacingWidth12,
+                const Text(
+                  "Error al iniciar sesión. Inténtalo nuevamente.",
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          )
+        );
       }
 
     }
@@ -38,7 +82,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: !isLoading ? SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -150,6 +194,14 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ),
+      ) : const Center(
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2.3,
           ),
         ),
       ),
