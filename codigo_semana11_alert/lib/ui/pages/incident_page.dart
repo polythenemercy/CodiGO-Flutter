@@ -11,8 +11,6 @@ class IncidentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    apiService.getIncident();
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
