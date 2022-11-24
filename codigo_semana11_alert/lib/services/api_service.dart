@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../models/incident_register_model.dart';
+
 class ApiService {
 
   //Función de clase - Inicio de sesión:
@@ -101,6 +103,27 @@ class ApiService {
     }
 
     return [];
+
+  }
+
+  Future<bool> registerIncident (IncidentRegisterModel model) async {
+
+    Uri _url = Uri.parse("$pathProduction/incidentes/crear/");
+    http.Response response = await http.post(
+      _url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Token f192cea511f6c6231ebbee22bcec8873ac60e497"
+      },
+      body: json.encode({
+          "latitud": model.latitude,
+          "longitud": model.longitude,
+          "tipoIncidente": model.incidentTypeId,
+          "estado": model.status
+        })
+    );
+
+    return response.statusCode == 201;
 
   }
 

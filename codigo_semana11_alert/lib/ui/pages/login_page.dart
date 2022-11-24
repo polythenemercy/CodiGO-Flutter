@@ -2,6 +2,7 @@ import 'package:codigo_semana11_alert/models/user_model.dart';
 import 'package:codigo_semana11_alert/services/api_service.dart';
 import 'package:codigo_semana11_alert/ui/general/colors.dart';
 import 'package:codigo_semana11_alert/ui/pages/home_page.dart';
+import 'package:codigo_semana11_alert/ui/widgets/button_custom_widget.dart';
 import 'package:codigo_semana11_alert/ui/widgets/general_widget.dart';
 import 'package:codigo_semana11_alert/ui/widgets/textfield_custom_widget.dart';
 import 'package:codigo_semana11_alert/utils/assets_data.dart';
@@ -131,43 +132,9 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _passwordController,
                   ),
                   spacing30,
-                  InkWell(
-                    onTap: () {
-
-                      _login(context);
-
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: 48.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                            color: kFontPrimaryColor.withOpacity(0.4)
-                          )
-                        ],
-                        gradient: LinearGradient(
-                            colors: [
-                              kBrandsPrimaryColor,
-                              kBrandsPrimaryColor,
-                              kBrandsPrimaryColor,
-                              kBrandsSecondaryColor
-                            ],
-                        )
-                      ),
-                      child: Text(
-                        "Iniciar sesión",
-                        style: TextStyle(
-                          color: kFontPrimaryColor.withOpacity(0.75),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0
-                        ),
-                      ),
-                    ),
+                  ButtonCustomWidget(
+                      text: "Iniciar sesión",
+                      onTap: () => _login(context)
                   ),
                   spacing30,
                   Row(
