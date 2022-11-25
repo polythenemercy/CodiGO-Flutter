@@ -1,11 +1,18 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:codigo_semana11_alert/models/incident_model.dart';
 import 'package:codigo_semana11_alert/services/api_service.dart';
 import 'package:codigo_semana11_alert/ui/pages/incident_map_page.dart';
 import 'package:codigo_semana11_alert/ui/pages/modals/register_incident_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../models/incident_type_model.dart';
 import '../general/colors.dart';
 import '../widgets/general_widget.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:open_filex/open_filex.dart';
 
 class IncidentPage extends StatefulWidget {
   @override
@@ -52,6 +59,99 @@ class _IncidentPageState extends State<IncidentPage> with TickerProviderStateMix
     });
   }
 
+  buildPDF () async {
+
+    ByteData byteData = await rootBundle.load('assets/images/hoja.png');
+    Uint8List imageByte = byteData.buffer.asUint8List();
+
+    pw.Document pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                pw.Image(
+                  height: 60.0,
+                  pw.MemoryImage(
+                      imageByte
+                  )
+                ),
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  children: [
+                    pw.Text("Guia de remisión",),
+                    pw.Text("Av. Lima N°1234 - Arequipa",),
+                    pw.Text("Telefono: 969 885 320",),
+                  ]
+                )
+              ]
+            ),
+            pw.Divider(),
+            pw.ListView.builder(
+              itemCount: 20,
+              itemBuilder: (pw.Context context, int index) {
+                return pw.Container(
+                  margin: const pw.EdgeInsets.symmetric(
+                    vertical: 16.0,
+                  ),
+                  padding: const pw.EdgeInsets.symmetric(
+                    vertical: 12.0,
+                    horizontal: 10.0
+                  ),
+                  decoration: pw.BoxDecoration(
+                    border: pw.Border.all(
+                      width: 0.07,
+                      color: PdfColors.black
+                    )
+                  ),
+                  child: pw.Row(
+                    children: [
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text("Tipo incidente: "),
+                          pw.Text("Ciudadano: "),
+                          pw.Text("DNI: "),
+                          pw.Text("Telefono: "),
+                          pw.Text("Fecha: "),
+                          pw.Text("Hora: "),
+                        ]
+                      ),
+                      pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text("${listData[index].tipoIncidente.title}"),
+                            pw.Text("${listData[index].datosCiudadano.nombres}"),
+                            pw.Text("${listData[index].datosCiudadano.dni}"),
+                            pw.Text("${listData[index].datosCiudadano.telefono}"),
+                            pw.Text("${listData[index].fecha}"),
+                            pw.Text("${listData[index].hora}"),
+                          ]
+                      ),
+                    ]
+                  )
+                );
+              }
+            )
+          ];
+        }
+      ),
+    );
+
+    Uint8List bytes = await pdf.save();
+    Directory directory = await getApplicationDocumentsDirectory();
+    File filePdf = File("${directory.path}/Alerta.pdf");
+    filePdf.writeAsBytes(bytes);
+    OpenFilex.open(filePdf.path);
+
+    print(directory.path);
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -59,6 +159,21 @@ class _IncidentPageState extends State<IncidentPage> with TickerProviderStateMix
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          InkWell(
+            onTap: () => buildPDF(),
+            child: Container(
+              padding: const EdgeInsets.all(14.0),
+              decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  shape: BoxShape.circle
+              ),
+              child: Icon(
+                Icons.picture_as_pdf,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          spacing10,
           InkWell(
             onTap: () => Navigator.push(
                 context,

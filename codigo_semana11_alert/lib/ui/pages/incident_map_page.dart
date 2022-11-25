@@ -70,7 +70,65 @@ class _IncidentMapPageState extends State<IncidentMapPage> {
 
               }
           ),
-          
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              child: Row(
+                children: widget.incidentList.map((e) => Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 14.0
+                  ),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 6.0,
+                    vertical: 12.0
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14.0)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        e.tipoIncidente.title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "Ciudadano: ${e.datosCiudadano.nombres}",
+                        style: TextStyle(
+                          fontSize: 12.0
+                        ),
+                      ),
+                      Text(
+                        "Telefono: ${e.datosCiudadano.telefono}",
+                        style: TextStyle(
+                            fontSize: 12.0
+                        ),
+                      ),
+                      Text(
+                        "Hora: ${e.hora}",
+                        style: TextStyle(
+                            fontSize: 12.0
+                        ),
+                      ),
+                      Text(
+                        "Fecha: ${e.fecha}",
+                        style: TextStyle(
+                            fontSize: 12.0
+                        ),
+                      ),
+                    ],
+                  ),
+                )).toList(),
+              ),
+            ),
+          )
         ],
       ),
     );
