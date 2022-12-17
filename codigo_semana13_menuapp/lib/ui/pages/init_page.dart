@@ -12,16 +12,26 @@ class InitPage extends StatefulWidget {
 }
 
 class _InitPageState extends State<InitPage> {
-
   int indexPage = 0;
 
   List<Widget> _pages = [
     HomePage(),
-    Center(child: Text("Ordenes",),),
-    Center(child: Text("Favoritos",),),
-    Center(child: Text("Mi Perfil",),),
+    Center(
+      child: Text(
+        "Ordenes",
+      ),
+    ),
+    Center(
+      child: Text(
+        "Favoritos",
+      ),
+    ),
+    Center(
+      child: Text(
+        "Mi Perfil",
+      ),
+    ),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +50,17 @@ class _InitPageState extends State<InitPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           type: BottomNavigationBarType.fixed,
-          unselectedLabelStyle: TextStyle(
-            color: Colors.white70,
-              fontSize: 13.0
-          ),
+          unselectedLabelStyle:
+              TextStyle(color: Colors.white70, fontSize: 13.0),
           selectedLabelStyle: TextStyle(
             fontSize: 13.0,
             color: kBrandPrimaryColor,
           ),
           selectedItemColor: kBrandPrimaryColor,
           unselectedItemColor: Colors.white70,
-          onTap: (int value){
+          onTap: (int value) {
             indexPage = value;
-            setState(() {
-
-            });
+            setState(() {});
           },
           currentIndex: indexPage,
           items: [
